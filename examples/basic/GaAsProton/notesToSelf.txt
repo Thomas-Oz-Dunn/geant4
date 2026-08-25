@@ -1,6 +1,10 @@
 We need to modify each of the src files here for our scenario
 
-DetectorConstruction.cc is where we weill set up the p-n junction
+if any functions are created, headers need to be updated
 
-Assume world is in vacuum?
+Assume world is in vacuum? Later we can add Al shielding
+
+    DetectorConstruction.cc is where we will set up the target GaAs p-n junction
+    RunAction.cc is where we will setup the experiment actions 
+    PrimaryGeneratorAction.cc is where we setup the proton stream
 

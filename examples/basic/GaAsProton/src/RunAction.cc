@@ -15,6 +15,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
 
+// TODO-TD: we want to calculate the displacement damage 
+// in the GaAs p-n junction from proton fluence, this is all still B1
 namespace GaAsProton
 {
 

@@ -8,25 +8,17 @@
 namespace GaAsProton
 {
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+  EventAction::EventAction(RunAction* runAction) : fRunAction(runAction) {}
 
-EventAction::EventAction(RunAction* runAction) : fRunAction(runAction) {}
+  void EventAction::BeginOfEventAction(const G4Event*)
+  {
+    fEdep = 0.;
+  }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void EventAction::BeginOfEventAction(const G4Event*)
-{
-  fEdep = 0.;
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void EventAction::EndOfEventAction(const G4Event*)
-{
-  // accumulate statistics in run action
-  fRunAction->AddEdep(fEdep);
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+  void EventAction::EndOfEventAction(const G4Event*)
+  {
+    // accumulate statistics in run action
+    fRunAction->AddEdep(fEdep);
+  }
 
 }  // namespace GaAsProton

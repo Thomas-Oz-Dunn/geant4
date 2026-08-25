@@ -14,9 +14,6 @@
 
 namespace GaAsProton
 {
-
-
-
   G4VPhysicalVolume* DetectorConstruction::Construct()
   {
     G4NistManager* nist = G4NistManager::Instance();
