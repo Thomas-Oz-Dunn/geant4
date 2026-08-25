@@ -17,10 +17,17 @@ namespace GaAsProton
   G4VPhysicalVolume* DetectorConstruction::Construct()
   {
     G4NistManager* nist = G4NistManager::Instance();
-
-    // Envelope parameters
+    
     G4double env_sizeXY = 20 * cm, env_sizeZ = 30 * cm;
-    G4Material* env_mat = nist->FindOrBuildMaterial("G4_Ga"); // TODO-TD: GaAs
+
+    // Junction parameters
+    // TODO-TD: parameterize dopings, create an n-type and p-type box
+
+    G4Element* Ga = nist->FindOrBuildElement("Ga"); 
+    G4Element* As = nist->FindOrBuildElement("As"); 
+    G4Material* GaAs = new G4Material("GaAs", 5.32  * g/cm3, 2);
+    GaAs->AddElement(Ga, 50 * perCent);
+    GaAs->AddElement(As, 50 * perCent);
     G4bool checkOverlaps = true;
 
     // World parameters
@@ -30,49 +37,52 @@ namespace GaAsProton
     G4double density     = universe_mean_density; 
     G4double pressure    = 3.e-18*pascal;
     G4double temperature = 2.73*kelvin;
-    G4Material* Vacuum =   
-    new G4Material("Vacuum", 1., 1.008*g/mole, density,
-                              kStateGas,temperature,pressure);
+    G4Material* Vacuum = new G4Material("Vacuum", 
+                                        1., 
+                                        1.008*g/mole, 
+                                        density,
+                                        kStateGas,
+                                        temperature,
+                                        pressure);
 
-    auto solidWorld =
-      new G4Box("World", 
-                0.5 * world_sizeXY, 0.5 * world_sizeXY, 0.5 * world_sizeZ);  // its size
+    auto solidWorld = new G4Box("World", 
+                                0.5 * world_sizeXY, 
+                                0.5 * world_sizeXY, 
+                                0.5 * world_sizeZ);
 
     auto logicWorld = new G4LogicalVolume(solidWorld,  // its solid
                                           Vacuum,  // its material
                                           "World");  // its name
 
-    auto physWorld = new G4PVPlacement(nullptr,  // no rotation
-                                      G4ThreeVector(),  // at (0,0,0)
-                                      logicWorld,  // its logical volume
-                                      "World",  // its name
-                                      nullptr,  // its mother  volume
-                                      false,  // no boolean operation
-                                      0,  // copy number
-                                      checkOverlaps);  // overlaps checking
+    auto physWorld = new G4PVPlacement(nullptr, 
+                                      G4ThreeVector(),  
+                                      logicWorld,  
+                                      "World",  
+                                      nullptr,  
+                                      false, 
+                                      0,  
+                                      checkOverlaps); 
 
-    //
-    // Envelope
-    //
-    auto solidEnv = new G4Box("Envelope",  // its name
-                              0.5 * env_sizeXY, 0.5 * env_sizeXY, 0.5 * env_sizeZ);  // its size
+    // Junction
+    // TODO-TD: parameterize device thickness to experiment with Bragg's peak
+    auto solidEnv = new G4Box("Junction", 
+                              0.5 * env_sizeXY, 
+                              0.5 * env_sizeXY, 
+                              0.5 * env_sizeZ); 
 
     auto logicEnv = new G4LogicalVolume(solidEnv,  // its solid
-                                        env_mat,  // its material
-                                        "Envelope");  // its name
+                                        GaAs,  // its material
+                                        "Junction");  // its name
 
     new G4PVPlacement(nullptr,  // no rotation
                       G4ThreeVector(),  // at (0,0,0)
                       logicEnv,  // its logical volume
-                      "Envelope",  // its name
+                      "Junction",  // its name
                       logicWorld,  // its mother  volume
                       false,  // no boolean operation
                       0,  // copy number
                       checkOverlaps);  // overlaps checking
 
-    //
-    // always return the physical World
-    //
     return physWorld;
   }
 
