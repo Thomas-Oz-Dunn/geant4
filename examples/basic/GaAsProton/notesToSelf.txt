@@ -1,0 +1,6 @@
+We need to modify each of the src files here for our scenario
+
+DetectorConstruction.cc is where we weill set up the p-n junction
+
+Assume world is in vacuum?
+
