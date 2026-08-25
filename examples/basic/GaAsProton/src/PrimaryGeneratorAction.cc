@@ -16,15 +16,20 @@ namespace GaAsProton
 
   PrimaryGeneratorAction::PrimaryGeneratorAction()
   {
+    // TODO-TD: pass energy, fluence, and particle type as function parameters?
+    G4String particleName = "proton";
+    G4double particleEnergy = 10. * MeV;
+
     G4int n_particle = 1;
+
     fParticleGun = new G4ParticleGun(n_particle);
 
     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
     G4String particleName;
-    G4ParticleDefinition* particle = particleTable->FindParticle(particleName = "proton");
+    G4ParticleDefinition* particle = particleTable->FindParticle(particleName = particleName);
     fParticleGun->SetParticleDefinition(particle);
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
-    fParticleGun->SetParticleEnergy(10. * MeV);
+    fParticleGun->SetParticleEnergy(particleEnergy);
   }
 
 
@@ -44,14 +49,14 @@ namespace GaAsProton
     G4double envSizeXY = 0;
     G4double envSizeZ = 0;
 
-    if (!fEnvelopeBox) {
+    if (!fJunctionBox) {
       G4LogicalVolume* envLV = G4LogicalVolumeStore::GetInstance()->GetVolume("Envelope");
-      if (envLV) fEnvelopeBox = dynamic_cast<G4Box*>(envLV->GetSolid());
+      if (envLV) fJunctionBox = dynamic_cast<G4Box*>(envLV->GetSolid());
     }
 
-    if (fEnvelopeBox) {
-      envSizeXY = fEnvelopeBox->GetXHalfLength() * 2.;
-      envSizeZ = fEnvelopeBox->GetZHalfLength() * 2.;
+    if (fJunctionBox) {
+      envSizeXY = fJunctionBox->GetXHalfLength() * 2.;
+      envSizeZ = fJunctionBox->GetZHalfLength() * 2.;
     }
     else {
       G4ExceptionDescription msg;
@@ -61,9 +66,9 @@ namespace GaAsProton
       G4Exception("PrimaryGeneratorAction::GeneratePrimaries()", "MyCode0002", JustWarning, msg);
     }
 
-    G4double size = 0.7;
-    G4double x0 = size * envSizeXY * (G4UniformRand() - 0.5);
-    G4double y0 = size * envSizeXY * (G4UniformRand() - 0.5);
+    G4double xysize = 0.7;
+    G4double x0 = xysize * envSizeXY * (G4UniformRand() - 0.5);
+    G4double y0 = xysize * envSizeXY * (G4UniformRand() - 0.5);
     G4double z0 = -0.5 * envSizeZ;
 
     fParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));

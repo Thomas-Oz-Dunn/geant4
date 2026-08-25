@@ -20,12 +20,23 @@ namespace GaAsProton
     
     G4double env_sizeXY = 20 * cm, env_sizeZ = 30 * cm;
 
+
+    G4double pTypeConcentration  = 1e-13; // ?
+    G4double pTypeThickness  = 3.5 * um; // ?
+    G4String pTypeDopant = "Zn"; // ?
+
+    G4double nTypeConcentration  = 1e-13; // ?
+    G4String nTypeDopant = "Si"; // ?
+    G4double nTypeThickness  = 0.1 * um; // ?
+
     // Junction parameters
-    // TODO-TD: parameterize dopings, create an n-type and p-type box
+    // TODO-TD: parameterize dopings, thickness
+    // create an n-type and p-type box adjacent to each other
 
     G4Element* Ga = nist->FindOrBuildElement("Ga"); 
     G4Element* As = nist->FindOrBuildElement("As"); 
-    G4Material* GaAs = new G4Material("GaAs", 5.32  * g/cm3, 2);
+    G4double GaAsdensity  = 5.32  * g/cm3;
+    G4Material* GaAs = new G4Material("GaAs", GaAsdensity, 2);
     GaAs->AddElement(Ga, 50 * perCent);
     GaAs->AddElement(As, 50 * perCent);
     G4bool checkOverlaps = true;
@@ -85,7 +96,5 @@ namespace GaAsProton
 
     return physWorld;
   }
-
-
 
 }  // namespace GaAsProton

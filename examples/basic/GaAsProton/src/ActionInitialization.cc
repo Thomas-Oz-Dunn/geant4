@@ -11,6 +11,8 @@
 namespace GaAsProton
 {
 
+  // These two different functions are needed 
+  // for multithreading scenarios
   void ActionInitialization::BuildForMaster() const
   {
     auto runAction = new RunAction;

@@ -16,7 +16,9 @@
 #include "G4UnitsTable.hh"
 
 // TODO-TD: we want to calculate the displacement damage 
-// in the GaAs p-n junction from proton fluence, this is all still B1
+// in the GaAs p-n junction from proton fluence
+
+
 namespace GaAsProton
 {
 
@@ -61,7 +63,6 @@ namespace GaAsProton
     accumulableManager->Merge();
 
     // Compute dose = total energy deposit in a run and its variance
-    //
     G4double edep = fEdep.GetValue();
     G4double edep2 = fEdep2.GetValue();
 
@@ -92,7 +93,6 @@ namespace GaAsProton
     }
 
     // Print
-    //
     if (IsMaster()) {
       G4cout << G4endl << "--------------------End of Global Run-----------------------";
     }
@@ -109,12 +109,11 @@ namespace GaAsProton
           << "------------------------------------------------------------" << G4endl << G4endl;
   }
 
-
   void RunAction::AddEdep(G4double edep)
   {
+    // TODO-TD: is this where we'd add NIEL calculations?
     fEdep += edep;
     fEdep2 += edep * edep;
   }
-
 
 }  // namespace GaAsProton
