@@ -82,9 +82,9 @@ namespace GaAsProton
                                 0.5 * world_sizeXY, 
                                 0.5 * world_sizeZ);
 
-    auto logicWorld = new G4LogicalVolume(solidWorld,  // its solid
-                                          Vacuum,  // its material
-                                          "World");  // its name
+    auto logicWorld = new G4LogicalVolume(solidWorld,
+                                          Vacuum,
+                                          "World");
 
     auto physWorld = new G4PVPlacement(nullptr, 
                                       G4ThreeVector(),  
@@ -97,23 +97,24 @@ namespace GaAsProton
 
     // Junction
     // TODO-TD: parameterize device thickness to experiment with Bragg's peak
+    // And place ptype and ntype on top of each other, point the proton beam orthogonal
     auto solidEnv = new G4Box("Junction", 
                               0.5 * env_sizeXY, 
                               0.5 * env_sizeXY, 
                               0.5 * env_sizeZ); 
 
-    auto logicEnv = new G4LogicalVolume(solidEnv,  // its solid
-                                        NtypeGaAs,  // its material
-                                        "Junction");  // its name
+    auto logicEnv = new G4LogicalVolume(solidEnv,
+                                        NtypeGaAs,
+                                        "Junction");
 
-    new G4PVPlacement(nullptr,  // no rotation
-                      G4ThreeVector(),  // at (0,0,0)
-                      logicEnv,  // its logical volume
-                      "Junction",  // its name
-                      logicWorld,  // its mother  volume
-                      false,  // no boolean operation
-                      0,  // copy number
-                      checkOverlaps);  // overlaps checking
+    new G4PVPlacement(nullptr,
+                      G4ThreeVector(), 
+                      logicEnv,  
+                      "Junction",  
+                      logicWorld, 
+                      false, 
+                      0, 
+                      checkOverlaps);  
 
     return physWorld;
   }
