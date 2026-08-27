@@ -13,3 +13,13 @@ Assume world is in vacuum? Later we can add Al shielding
 Replicate this?
 
 https://www.sciencedirect.com/science/article/pii/S0168583X23003853
+
+From the above paper:
+    In Geant4, the proton transport in GaAs is simulated using the
+QGSP_BIC physics list in which the G4ScreenedNuclearRecoil class [19]
+is added. This class is crucial to the NIEL calculation because it can
+accurately simulate the recoil atoms produced by charged particles
+through Coulomb scattering
+
+[19]:
+https://www.sciencedirect.com/science/article/pii/S0168583X04009851
