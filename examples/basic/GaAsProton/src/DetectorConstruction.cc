@@ -19,15 +19,9 @@ namespace GaAsProton
     G4NistManager* nist = G4NistManager::Instance();
     
     G4double env_sizeXY = 20 * cm, env_sizeZ = 30 * cm;
+    G4double nTypeThickness = 0.3 * um;
+    G4double pTypeThickness = 3.5 * um;
 
-
-    G4double pTypeConcentration  = 1e-13; // ?
-    G4double pTypeThickness  = 3.5 * um; // ?
-    G4String pTypeDopant = "Zn"; // ?
-
-    G4double nTypeConcentration  = 1e-13; // ?
-    G4String nTypeDopant = "Si"; // ?
-    G4double nTypeThickness  = 0.1 * um; // ?
 
     // Junction parameters
     // TODO-TD: parameterize dopings, thickness
@@ -36,9 +30,36 @@ namespace GaAsProton
     G4Element* Ga = nist->FindOrBuildElement("Ga"); 
     G4Element* As = nist->FindOrBuildElement("As"); 
     G4double GaAsdensity  = 5.32  * g/cm3;
-    G4Material* GaAs = new G4Material("GaAs", GaAsdensity, 2);
-    GaAs->AddElement(Ga, 50 * perCent);
-    GaAs->AddElement(As, 50 * perCent);
+    G4double nTypeConcentration = 2e18 / cm3;  // Si emitter
+    G4String nTypeDopantName = "Si";
+
+    G4Element* nTypeDopant = nist->FindOrBuildElement(nTypeDopantName);
+    G4double dopantMolarMass = nTypeDopant->GetA() * mole / g; // g/mol
+
+    G4double dopantMassFrac =
+        (nTypeConcentration * dopantMolarMass) /
+        (GaAsdensity / (g/cm3) * 6.02214076e23) ;  // Avogadros Const
+
+    G4Material* NtypeGaAs = new G4Material("NtypeGaAs", GaAsdensity, 3);
+    NtypeGaAs->AddElement(Ga, 0.5 * (1.0 - dopantMassFrac));
+    NtypeGaAs->AddElement(As, 0.5 * (1.0 - dopantMassFrac));
+    NtypeGaAs->AddElement(nTypeDopant, dopantMassFrac);
+
+    G4double pTypeConcentration = 2e17 / cm3;  // Zn base
+    G4String pTypeDopantName = "Zn";
+    G4Element* pTypeDopant = nist->FindOrBuildElement(pTypeDopantName);
+    G4double pTypeDopantMolarMass = pTypeDopant->GetA() * mole / g; // g/mol
+
+    G4double dopantMassFrac =
+        (pTypeConcentration * pTypeDopantMolarMass) /
+        (GaAsdensity / (g/cm3) * 6.02214076e23) ;  // Avogadros Const
+
+    G4Material* PtypeGaAs = new G4Material("PtypeGaAs", GaAsdensity, 3);
+    PtypeGaAs->AddElement(Ga, 0.5 * (1.0 - dopantMassFrac));
+    PtypeGaAs->AddElement(As, 0.5 * (1.0 - dopantMassFrac));
+    PtypeGaAs->AddElement(pTypeDopant, dopantMassFrac);
+
+
     G4bool checkOverlaps = true;
 
     // World parameters
@@ -82,7 +103,7 @@ namespace GaAsProton
                               0.5 * env_sizeZ); 
 
     auto logicEnv = new G4LogicalVolume(solidEnv,  // its solid
-                                        GaAs,  // its material
+                                        NtypeGaAs,  // its material
                                         "Junction");  // its name
 
     new G4PVPlacement(nullptr,  // no rotation
