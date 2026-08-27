@@ -19,7 +19,6 @@ namespace GaAsProton
     // TODO-TD: pass energy, fluence, and particle type as function parameters?
     G4String particleName = "proton";
     G4double particleEnergy = 10. * MeV;
-
     G4int n_particle = 1;
 
     fParticleGun = new G4ParticleGun(n_particle);
@@ -66,13 +65,13 @@ namespace GaAsProton
       G4Exception("PrimaryGeneratorAction::GeneratePrimaries()", "MyCode0002", JustWarning, msg);
     }
 
-    G4double xysize = 0.7;
+    // TODO-TD: double check this location vs the junction
+    G4double xysize = 0.2;
     G4double x0 = xysize * envSizeXY * (G4UniformRand() - 0.5);
     G4double y0 = xysize * envSizeXY * (G4UniformRand() - 0.5);
-    G4double z0 = -0.5 * envSizeZ;
+    G4double z0 = -1.2 * envSizeZ;
 
     fParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
-
     fParticleGun->GeneratePrimaryVertex(event);
   }
 
