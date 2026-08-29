@@ -37,27 +37,27 @@ namespace GaAsProton
     G4Element* nTypeDopant = nist->FindOrBuildElement(nTypeDopantName);
     G4double dopantMolarMass = nTypeDopant->GetA() * mole / g; // g/mol
 
-    G4double dopantMassFrac =
+    G4double dopantMassFracNType =
         (nTypeConcentration * dopantMolarMass) /
         (GaAsdensity / (g/cm3) * Avogadro);
 
     G4Material* NtypeGaAs = new G4Material("NtypeGaAs", GaAsdensity, 3);
-    NtypeGaAs->AddElement(Ga, 0.5 * (1.0 - dopantMassFrac));
-    NtypeGaAs->AddElement(As, 0.5 * (1.0 - dopantMassFrac));
-    NtypeGaAs->AddElement(nTypeDopant, dopantMassFrac);
+    NtypeGaAs->AddElement(Ga, 0.5 * (1.0 - dopantMassFracNType));
+    NtypeGaAs->AddElement(As, 0.5 * (1.0 - dopantMassFracNType));
+    NtypeGaAs->AddElement(nTypeDopant, dopantMassFracNType);
 
     G4String pTypeDopantName = "Zn";
     G4Element* pTypeDopant = nist->FindOrBuildElement(pTypeDopantName);
     G4double pTypeDopantMolarMass = pTypeDopant->GetA() * mole / g; // g/mol
 
-    G4double dopantMassFrac =
+    G4double dopantMassFracPType =
         (pTypeConcentration * pTypeDopantMolarMass) /
         (GaAsdensity / (g/cm3) * Avogadro); 
 
     G4Material* PtypeGaAs = new G4Material("PtypeGaAs", GaAsdensity, 3);
-    PtypeGaAs->AddElement(Ga, 0.5 * (1.0 - dopantMassFrac));
-    PtypeGaAs->AddElement(As, 0.5 * (1.0 - dopantMassFrac));
-    PtypeGaAs->AddElement(pTypeDopant, dopantMassFrac);
+    PtypeGaAs->AddElement(Ga, 0.5 * (1.0 - dopantMassFracPType));
+    PtypeGaAs->AddElement(As, 0.5 * (1.0 - dopantMassFracPType));
+    PtypeGaAs->AddElement(pTypeDopant, dopantMassFracPType);
 
     G4bool checkOverlaps = true;
 

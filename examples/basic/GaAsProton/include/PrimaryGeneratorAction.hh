@@ -5,6 +5,7 @@
 #define GaAsProtonPrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
+#include "G4Types.hh"
 
 class G4ParticleGun;
 class G4Event;
@@ -28,7 +29,7 @@ namespace GaAsProton
     private:
       G4ParticleGun* fParticleGun = nullptr;  
       G4Box* fJunctionBox = nullptr;
-      G4Double fFluence;
+      G4double fFluence;
   };
 
 }  // namespace GaAsProton
