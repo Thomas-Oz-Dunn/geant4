@@ -28,6 +28,7 @@ namespace GaAsProton
     private:
       G4ParticleGun* fParticleGun = nullptr;  
       G4Box* fJunctionBox = nullptr;
+      G4Double fFluence;
   };
 
 }  // namespace GaAsProton

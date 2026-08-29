@@ -20,7 +20,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, use our local headers, and link it to the Geant4 libraries
 #
-add_executable(GaAsProton GaAsProton.cc ${sources} ${headers})
+add_executable(GaAsProton main.cc ${sources} ${headers})
 target_include_directories(GaAsProton PRIVATE include)
 target_link_libraries(GaAsProton PRIVATE ${Geant4_LIBRARIES})
 

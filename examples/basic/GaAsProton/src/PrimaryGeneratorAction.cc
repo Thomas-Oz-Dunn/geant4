@@ -9,6 +9,7 @@
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4RunManager.hh"
 #include "Randomize.hh"
 
 namespace GaAsProton
@@ -24,11 +25,14 @@ namespace GaAsProton
     fParticleGun = new G4ParticleGun(n_particle);
 
     G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();
-    G4String particleName;
-    G4ParticleDefinition* particle = particleTable->FindParticle(particleName = particleName);
+    G4ParticleDefinition* particle = particleTable->FindParticle(particleName);
     fParticleGun->SetParticleDefinition(particle);
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
     fParticleGun->SetParticleEnergy(particleEnergy);
+
+    // target fluence in particles / cm^2
+    // TODO-TD: update header with var
+    fFluence = 1.0e17 / cm2;
   }
 
 
@@ -40,11 +44,6 @@ namespace GaAsProton
 
   void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   {
-    // this function is called at the begining of each event
-    // In order to avoid dependence of PrimaryGeneratorAction
-    // on DetectorConstruction class we get Envelope volume
-    // from G4LogicalVolumeStore.
-
     G4double envSizeXY = 0;
     G4double envSizeZ = 0;
 
@@ -62,17 +61,38 @@ namespace GaAsProton
       msg << "Envelope volume of box shape not found.\n";
       msg << "Perhaps you have changed geometry.\n";
       msg << "The gun will be place at the center.";
-      G4Exception("PrimaryGeneratorAction::GeneratePrimaries()", "MyCode0002", JustWarning, msg);
+      
+      G4Exception("PrimaryGeneratorAction::GeneratePrimaries()", "GaAsProton", JustWarning, msg);
+      
+      envSizeXY = 10. * cm; // fallback so fluence calc doesn't blow up
+      envSizeZ  = 10. * cm;
     }
 
-    // TODO-TD: double check this location vs the junction
+    // Irradiation field: the square region particles are sampled over.
+    // Keep this consistent with the area used in PrintFluenceInfo()/GetRequiredEvents().
     G4double xysize = 0.2;
-    G4double x0 = xysize * envSizeXY * (G4UniformRand() - 0.5);
-    G4double y0 = xysize * envSizeXY * (G4UniformRand() - 0.5);
-    G4double z0 = -1.2 * envSizeZ;
+    G4double fieldSize = xysize * envSizeXY;   // full width of the irradiated square
+
+    G4double x0 = fieldSize * (G4UniformRand() - 0.5);
+    G4double y0 = fieldSize * (G4UniformRand() - 0.5);
+    G4double z0 = -1.5 * envSizeZ;
 
     fParticleGun->SetParticlePosition(G4ThreeVector(x0, y0, z0));
     fParticleGun->GeneratePrimaryVertex(event);
+
+    // On the very first event, tell the user how many primaries are needed
+    // for the requested fluence, given the current field size.
+    if (event->GetEventID() == 0) {
+      G4double area = fieldSize * fieldSize / cm2; // cm^2
+      G4double nEvents = fFluence * area;
+      G4cout << "\n[PrimaryGeneratorAction] Irradiation field: "
+             << fieldSize / cm << " x " << fieldSize / cm << " cm^2"
+             << "\n  Target fluence: " << fFluence * cm2 << " /cm^2"
+             << "\n  => Required primaries for uniform fluence: "
+             << nEvents
+             << "\n  Run with: /run/beamOn " << static_cast<G4long>(nEvents)
+             << G4endl;
+    }
   }
 
 }  // namespace GaAsProton
