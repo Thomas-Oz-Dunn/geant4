@@ -20,6 +20,7 @@ namespace GaAsProton
     
     // TODO-TD: parameterize device thickness to experiment with Bragg's peak
     // TODO-TD: parameterize dopings
+    // TODO-TD: triple junction experiment
     G4double junction_xy_size = 2.0 * cm;
     G4double nTypeThickness = 0.3 * um;
     G4double pTypeThickness = 3.5 * um;

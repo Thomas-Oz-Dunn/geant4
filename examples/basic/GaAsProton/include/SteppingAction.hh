@@ -5,6 +5,7 @@
 #define GaAsProtonSteppingAction_h 1
 
 #include "G4UserSteppingAction.hh"
+#include "G4NIELCalculator.hh"
 
 class G4LogicalVolume;
 class G4Step;
@@ -28,6 +29,7 @@ namespace GaAsProton
     private:
       EventAction* fEventAction = nullptr;
       G4LogicalVolume* fScoringVolume = nullptr;
+      G4NIELCalculator* fNIELCalculator = nullptr;
   };
 
 }  // namespace GaAsProton

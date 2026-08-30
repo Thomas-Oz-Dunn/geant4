@@ -11,6 +11,8 @@
 #include "G4RunManager.hh"
 #include "G4Step.hh"
 
+// geant4\examples\extended\electromagnetic\TestEm1\src\SteppingAction.cc  NIEL
+
 namespace GaAsProton
 {
 
