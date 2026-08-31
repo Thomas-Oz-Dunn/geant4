@@ -12,13 +12,14 @@ namespace GaAsProton
 
   void EventAction::BeginOfEventAction(const G4Event*)
   {
-    fEdep = 0.;
+    fTotalEnergyDeposit = 0.;
+    fNIEL = 0.;
   }
 
   void EventAction::EndOfEventAction(const G4Event*)
   {
     // accumulate statistics in run action
-    fRunAction->AddEdep(fEdep);
+    fRunAction->AddEdep(fTotalEnergyDeposit);
   }
 
 }  // namespace GaAsProton

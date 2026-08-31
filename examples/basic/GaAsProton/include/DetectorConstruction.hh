@@ -19,12 +19,7 @@ namespace GaAsProton
       ~DetectorConstruction() override = default;
 
       G4VPhysicalVolume* Construct() override;
-
-      // TODO-TD: review whether we need this function
-      G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; } 
-
     protected:
-      G4LogicalVolume* fScoringVolume = nullptr;
   };
 
 }  // namespace GaAsProton

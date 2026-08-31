@@ -24,11 +24,14 @@ namespace GaAsProton
       void EndOfEventAction(const G4Event* event) override;
 
       // TODO-TD: do we need this function?
-      void AddEdep(G4double edep) { fEdep += edep; }
+      void AddEdep(G4double edep) { fTotalEnergyDeposit += edep; }
+      inline void AddNIEL(G4double Edep) { fNIEL += Edep; };
+      inline G4double GetEnergyDeposit() { return fTotalEnergyDeposit; };
 
     private:
       RunAction* fRunAction = nullptr;
-      G4double fEdep = 0.;
+      G4double fTotalEnergyDeposit = 0.;
+      G4double fNIEL = 0.;
   };
 
 }  // namespace GaAsProton

@@ -9,6 +9,7 @@
 
 class G4LogicalVolume;
 class G4Step;
+class G4NIELCalculator;
 
 namespace GaAsProton
 {
@@ -28,7 +29,6 @@ namespace GaAsProton
 
     private:
       EventAction* fEventAction = nullptr;
-      G4LogicalVolume* fScoringVolume = nullptr;
       G4NIELCalculator* fNIELCalculator = nullptr;
   };
 

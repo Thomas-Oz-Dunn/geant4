@@ -6,6 +6,8 @@
 #include "DetectorConstruction.hh"
 #include "EventAction.hh"
 
+#include "G4ICRU49NuclearStoppingModel.hh"
+#include "G4NIELCalculator.hh"
 #include "G4Event.hh"
 #include "G4LogicalVolume.hh"
 #include "G4RunManager.hh"
@@ -16,26 +18,48 @@
 namespace GaAsProton
 {
 
-  SteppingAction::SteppingAction(EventAction* eventAction) : fEventAction(eventAction) {}
+  SteppingAction::SteppingAction(EventAction* eventAction) : fEventAction(eventAction) {
+    
+    fNIELCalculator = new G4NIELCalculator(new G4ICRU49NuclearStoppingModel(), 1);
+  }
 
   void SteppingAction::UserSteppingAction(const G4Step* step)
   {
-    if (!fScoringVolume) {
-      const auto detConstruction = static_cast<const DetectorConstruction*>(
-        G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-      fScoringVolume = detConstruction->GetScoringVolume();
+
+    Run* run = static_cast<Run*>(G4RunManager::GetRunManager()->GetNonConstCurrentRun());
+    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+    G4double EdepStep = aStep->GetTotalEnergyDeposit();
+
+    if (EdepStep > 0.) {
+      run->AddEdep(EdepStep);
+      fEventAction->AddEdep(EdepStep);
+    }
+    G4double niel = fNIELCalculator->ComputeNIEL(aStep);
+    if (niel > 0.) {
+      run->AddNIEL(niel);
+      fEventAction->AddNIEL(niel);
     }
 
-    // get volume of the current step
-    G4LogicalVolume* volume =
-      step->GetPreStepPoint()->GetTouchableHandle()->GetVolume()->GetLogicalVolume();
+    const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
+    if (process) run->CountProcesses(process->GetProcessName());
 
-    // check if we are in scoring volume
-    if (volume != fScoringVolume) return;
+    // step length of primary particle
+    G4int ID = aStep->GetTrack()->GetTrackID();
+    G4double steplen = aStep->GetStepLength();
+    if (ID == 1) analysisManager->FillH1(3, steplen);
 
-    // collect energy deposited in this step
-    G4double edepStep = step->GetTotalEnergyDeposit();
-    fEventAction->AddEdep(edepStep);
+    /*
+      //debug: charge and mass
+      //
+      G4int stepNb = aStep->GetTrack()->GetCurrentStepNumber();
+      G4StepPoint* postPoint = aStep->GetPostStepPoint();
+      G4double charge = postPoint->GetCharge();
+      G4double mass   = postPoint->GetMass();
+      G4cout << "\n   step= " << stepNb << "   charge= " << charge
+            << "  mass= " << G4BestUnit(mass, "Energy");
+    */
+
   }
 
 

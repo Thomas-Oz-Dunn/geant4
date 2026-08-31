@@ -10,6 +10,7 @@
 #include "globals.hh"
 
 class G4Run;
+class HistoManager;
 
 namespace GaAsProton
 {
@@ -34,6 +35,7 @@ namespace GaAsProton
     private:
       G4Accumulable<G4double> fEdep = 0.;
       G4Accumulable<G4double> fEdep2 = 0.;
+      HistoManager* fHistoManager = nullptr;
   };
 
 }  // namespace GaAsProton
