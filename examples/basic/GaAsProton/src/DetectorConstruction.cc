@@ -132,6 +132,12 @@ namespace GaAsProton
                       0, 
                       checkOverlaps);  
 
+    // p-type (base) region as the target for range/dose
+    // reporting in Run::EndOfRun().
+    fLogicTarget = logicPType;
+    fMaterial = PtypeGaAs;
+    fSize = pTypeThickness;
+
     return physWorld;
   }
 

@@ -11,9 +11,12 @@
 
 class G4Run;
 class HistoManager;
+class Run;
 
 namespace GaAsProton
 {
+  class DetectorConstruction;
+  class PrimaryGeneratorAction;
 
   /// Run action class
   ///
@@ -27,6 +30,10 @@ namespace GaAsProton
       RunAction();
       ~RunAction() override = default;
 
+      // Return a project-specific Run so SteppingAction/EventAction can
+      // accumulate NIEL, process counts, and range statistics into it.
+      G4Run* GenerateRun() override;
+
       void BeginOfRunAction(const G4Run*) override;
       void EndOfRunAction(const G4Run*) override;
 
@@ -36,6 +43,10 @@ namespace GaAsProton
       G4Accumulable<G4double> fEdep = 0.;
       G4Accumulable<G4double> fEdep2 = 0.;
       HistoManager* fHistoManager = nullptr;
+
+      Run* fRun = nullptr;
+      const DetectorConstruction* fDetector = nullptr;
+      const PrimaryGeneratorAction* fPrimary = nullptr;
   };
 
 }  // namespace GaAsProton

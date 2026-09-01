@@ -5,6 +5,7 @@
 
 #include "DetectorConstruction.hh"
 #include "EventAction.hh"
+#include "Run.hh"
 
 #include "G4ICRU49NuclearStoppingModel.hh"
 #include "G4NIELCalculator.hh"
@@ -12,6 +13,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4RunManager.hh"
 #include "G4Step.hh"
+#include "G4AnalysisManager.hh"
 
 // geant4\examples\extended\electromagnetic\TestEm1\src\SteppingAction.cc  NIEL
 
@@ -29,24 +31,25 @@ namespace GaAsProton
     Run* run = static_cast<Run*>(G4RunManager::GetRunManager()->GetNonConstCurrentRun());
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
-    G4double EdepStep = aStep->GetTotalEnergyDeposit();
+    G4double EdepStep = step->GetTotalEnergyDeposit();
 
     if (EdepStep > 0.) {
       run->AddEdep(EdepStep);
       fEventAction->AddEdep(EdepStep);
     }
-    G4double niel = fNIELCalculator->ComputeNIEL(aStep);
+
+    G4double niel = fNIELCalculator->ComputeNIEL(step);
     if (niel > 0.) {
       run->AddNIEL(niel);
       fEventAction->AddNIEL(niel);
     }
 
-    const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
+    const G4VProcess* process = step->GetPostStepPoint()->GetProcessDefinedStep();
     if (process) run->CountProcesses(process->GetProcessName());
 
     // step length of primary particle
-    G4int ID = aStep->GetTrack()->GetTrackID();
-    G4double steplen = aStep->GetStepLength();
+    G4int ID = step->GetTrack()->GetTrackID();
+    G4double steplen = step->GetStepLength();
     if (ID == 1) analysisManager->FillH1(3, steplen);
 
     /*
@@ -61,6 +64,5 @@ namespace GaAsProton
     */
 
   }
-
 
 }  // namespace GaAsProton
