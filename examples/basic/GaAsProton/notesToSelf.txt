@@ -1,0 +1,25 @@
+We need to modify each of the src files here for our scenario
+
+if any functions are created, headers need to be updated
+
+Assume world is in vacuum? Later we can add Al shielding
+
+    DetectorConstruction.cc is where we will set up the target GaAs p-n junction
+        what dopings to we want to use?
+        what did Yamaguchi use?
+    RunAction.cc is where we will setup the experiment actions 
+    PrimaryGeneratorAction.cc is where we setup the proton stream
+
+Replicate this?
+
+https://www.sciencedirect.com/science/article/pii/S0168583X23003853
+
+From the above paper:
+    In Geant4, the proton transport in GaAs is simulated using the
+QGSP_BIC physics list in which the G4ScreenedNuclearRecoil class [19]
+is added. This class is crucial to the NIEL calculation because it can
+accurately simulate the recoil atoms produced by charged particles
+through Coulomb scattering
+
+[19]:
+https://www.sciencedirect.com/science/article/pii/S0168583X04009851
