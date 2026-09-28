@@ -47,10 +47,29 @@ namespace GaAsProton
     const G4VProcess* process = step->GetPostStepPoint()->GetProcessDefinedStep();
     if (process) run->CountProcesses(process->GetProcessName());
 
+    const G4Track* track = step->GetTrack();
+
     // step length of primary particle
-    G4int ID = step->GetTrack()->GetTrackID();
+    G4int ID = track->GetTrackID();
     G4double steplen = step->GetStepLength();
     if (ID == 1) analysisManager->FillH1(3, steplen);
+
+    if (track->GetParentID() != 0 && track->GetCurrentStepNumber() == 1){
+      const G4VProcess* proc = track->GetCreatorProcess();
+      G4String procname = proc ? proc->GetProcessName() : "";
+      G4int Z = track->GetParticleDefinition()->GetAtomicNumber();
+      bool isGaOrAs = Z == 31 || Z == 32;
+      bool isNuclearInteraction = procname == "hadElastic" || procname.contains("Inelastic");
+      if (isNuclearInteraction && isGaOrAs) {
+        G4double Erecoil = track->GetKineticEnergy();
+        G4ThreeVector dir = track->GetMomentumDirection();
+        // TODO-TD: log
+      }
+    }
+
+    // TODO-TD: lindhard partition the data as well
+
+
 
     /*
       //debug: charge and mass

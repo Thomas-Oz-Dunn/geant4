@@ -10,6 +10,10 @@
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
 
+// TODO-TD: experiment with directional NIEL after getting the initial PKA results
+// TODO-TD: add G4NuclideTable: G4ENSDFSTATEDATA
+// C:\Users\tomde\Downloads\WIN64-VC17.10.3-11\geant4-11.3.2-win64\bin\geant4.sh ?
+
 #include <iomanip>
 
 Run::Run(const GaAsProton::DetectorConstruction* det) : fDetector(det) {}
