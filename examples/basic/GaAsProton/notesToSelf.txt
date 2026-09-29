@@ -23,3 +23,16 @@ through Coulomb scattering
 
 [19]:
 https://www.sciencedirect.com/science/article/pii/S0168583X04009851
+
+
+Calculate NIEL at diff proton energies
+
+cmake -DGEANT4_INSTALL_DATA=ON .
+cmake --build .
+
+
+We installed the 
+
+https://geant4.web.cern.ch/download/11.4.2.html
+
+export G4ENSDFSTATEDATA=~/Projects/geant4/data/G4ENSDFSTATE3.0/
