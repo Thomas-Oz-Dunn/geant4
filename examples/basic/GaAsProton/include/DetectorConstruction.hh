@@ -28,6 +28,7 @@ namespace GaAsProton
     protected:
       G4LogicalVolume* fLogicTarget = nullptr;
       G4Material* fMaterial = nullptr;
+
       // TODO-TD: include all junctions in fSize calculation?
       G4double fSize = 0.;
   };

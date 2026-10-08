@@ -63,7 +63,7 @@ namespace GaAsProton
       if (isNuclearInteraction && isGaOrAs) {
         G4double Erecoil = track->GetKineticEnergy();
         G4ThreeVector dir = track->GetMomentumDirection();
-        // TODO-TD: log
+        // TODO-TD: log these parameters and plot them
       }
     }
 

@@ -63,11 +63,12 @@ namespace GaAsProton
     G4bool checkOverlaps = true;
 
     // World parameters
-    G4double world_sizeXY = 1.2 * junction_xy_size;
-    G4double world_sizeZ = 1.2 * (nTypeThickness + pTypeThickness);
+    G4double world_sizeXY = 5 * junction_xy_size;
+    G4double world_sizeZ = 5 * (nTypeThickness + pTypeThickness);
     G4double density = universe_mean_density; 
     G4double pressure = 3.e-18 * pascal;
     G4double temperature = 2.73 * kelvin;
+
     G4Material* Vacuum = new G4Material("Vacuum", 
                                         1., 
                                         1.008*g/mole, 
@@ -77,9 +78,9 @@ namespace GaAsProton
                                         pressure);
 
     auto solidWorld = new G4Box("World", 
-                                0.5 * world_sizeXY, 
-                                0.5 * world_sizeXY, 
-                                0.5 * world_sizeZ);
+                                world_sizeXY, 
+                                world_sizeXY, 
+                                world_sizeZ);
 
     auto logicWorld = new G4LogicalVolume(solidWorld,
                                           Vacuum,

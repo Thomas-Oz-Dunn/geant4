@@ -33,6 +33,10 @@ namespace GaAsProton
         G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
 
     fHistoManager = new HistoManager();
+    auto analysisManager = G4AnalysisManager::Instance();
+    
+    // Explicitly set the default output file format (e.g., "root", "csv", or "xml")
+    analysisManager->SetDefaultFileType("root");
   }
 
   G4Run* RunAction::GenerateRun()
