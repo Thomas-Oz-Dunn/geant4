@@ -26,6 +26,7 @@ void Run::SetPrimary(const G4ParticleDefinition* particle, G4double energy)
 void Run::CountProcesses(const G4String& procName)
 {
   std::map<G4String, G4int>::iterator iter = fProcCounter.find(procName);
+
   // Reset counter
   if (iter == fProcCounter.end()) {
     fProcCounter[procName] = 1;

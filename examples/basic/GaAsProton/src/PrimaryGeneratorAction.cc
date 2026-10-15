@@ -18,9 +18,12 @@ namespace GaAsProton
   PrimaryGeneratorAction::PrimaryGeneratorAction()
   {
     // TODO-TD: pass energy, fluence, and particle type as function parameters?
+
     G4String particleName = "proton";
     G4double particleEnergy = 10. * MeV;
     G4int n_particle = 1;
+    // target fluence in particles / cm^2
+    fFluence = 1.0e17 / cm2;
 
     fParticleGun = new G4ParticleGun(n_particle);
 
@@ -30,9 +33,6 @@ namespace GaAsProton
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
     fParticleGun->SetParticleEnergy(particleEnergy);
 
-    // target fluence in particles / cm^2
-    // TODO-TD: update header with var
-    fFluence = 1.0e17 / cm2;
   }
 
 

@@ -67,7 +67,7 @@ namespace GaAsProton
       }
     }
 
-    // TODO-TD: lindhard partition the data as well
+    // TODO-TD: lindhard partition the data as well?
 
 
 
