@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 
   // Physics list
   auto physicsList = new QBBC;
-  physicsList->SetVerboseLevel(1);
+  physicsList->SetVerboseLevel(2);
   runManager->SetUserInitialization(physicsList);
 
   // User action initialization
