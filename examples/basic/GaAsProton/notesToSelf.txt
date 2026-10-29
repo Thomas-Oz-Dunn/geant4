@@ -28,7 +28,6 @@ https://www.sciencedirect.com/science/article/pii/S0168583X04009851
 Calculate NIEL at diff proton energies
 
 
-
 # Build
 cmake -DGEANT4_INSTALL_DATA=ON .
 cmake --build .
@@ -43,9 +42,31 @@ export G4ENSDFSTATEDATA=./data/G4ENSDFSTATE3.0
 export G4LEVELGAMMADATA=./data/PhotonEvaporation6.1.2
 export G4LEDATA=./data/G4EMLOW8.8
 
-
-
 # Run
 
 examples/basic/GaAsProton/build/Debug/GaAsProton.exe -h
 
+
+
+
+TODO-TD: build script cause starting fire by hand each time is wasteful
+
+
+What does each file do?
+    ActionInitialization
+        Initialize for single or multithreaded runs
+    DetectorConstruction
+        Setup the layout of the particles and target objects
+    EventAction
+        Accumulate total energy deposited
+    HistoManager
+        Keep track of the monte carlo parameters like 
+        "energy of charged secondaries at creation"
+    PrimaryGeneratorAction
+        Setup particle source and fluence, energy, rates
+    Run
+        Orchestrate overall run, memory, variables, threads
+    RunAction
+
+    SteppingAction
+        actions performed by per step

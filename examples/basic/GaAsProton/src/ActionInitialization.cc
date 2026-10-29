@@ -12,13 +12,14 @@ namespace GaAsProton
 {
 
   // These two different functions are needed 
-  // for multithreading scenarios
+  // for multithreading scenarios, master thread
   void ActionInitialization::BuildForMaster() const
   {
     auto runAction = new RunAction;
     SetUserAction(runAction);
   }
 
+  // non-master threads
   void ActionInitialization::Build() const
   {
     SetUserAction(new PrimaryGeneratorAction);
@@ -29,7 +30,8 @@ namespace GaAsProton
     auto eventAction = new EventAction(runAction);
     SetUserAction(eventAction);
 
-    SetUserAction(new SteppingAction(eventAction));
+    auto steppingAction = new SteppingAction(eventAction);
+    SetUserAction(steppingAction);
   }
 
 }  // namespace GaAsProton

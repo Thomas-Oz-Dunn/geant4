@@ -15,24 +15,24 @@
 #include "G4Step.hh"
 #include "G4AnalysisManager.hh"
 
-// geant4\examples\extended\electromagnetic\TestEm1\src\SteppingAction.cc  NIEL
+// NIEL Reference: geant4\examples\extended\electromagnetic\TestEm1\src\SteppingAction.cc  
 
 namespace GaAsProton
 {
 
   SteppingAction::SteppingAction(EventAction* eventAction) : fEventAction(eventAction) {
-    
     fNIELCalculator = new G4NIELCalculator(new G4ICRU49NuclearStoppingModel(), 1);
   }
 
   void SteppingAction::UserSteppingAction(const G4Step* step)
   {
 
-    Run* run = static_cast<Run*>(G4RunManager::GetRunManager()->GetNonConstCurrentRun());
+    Run* run = static_cast<Run*>(
+      G4RunManager::GetRunManager()->GetNonConstCurrentRun()
+    );
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
 
     G4double EdepStep = step->GetTotalEnergyDeposit();
-
     if (EdepStep > 0.) {
       run->AddEdep(EdepStep);
       fEventAction->AddEdep(EdepStep);
@@ -45,43 +45,37 @@ namespace GaAsProton
     }
 
     const G4VProcess* process = step->GetPostStepPoint()->GetProcessDefinedStep();
-    if (process) run->CountProcesses(process->GetProcessName());
+    if (process) run->CountProcesses(
+      process->GetProcessName()
+    );
 
     const G4Track* track = step->GetTrack();
 
     // step length of primary particle
     G4int ID = track->GetTrackID();
     G4double steplen = step->GetStepLength();
+
+    // TODO_TD: store the histogram IDs as globals?
     if (ID == 1) analysisManager->FillH1(3, steplen);
 
     if (track->GetParentID() != 0 && track->GetCurrentStepNumber() == 1){
       const G4VProcess* proc = track->GetCreatorProcess();
       G4String procname = proc ? proc->GetProcessName() : "";
       G4int Z = track->GetParticleDefinition()->GetAtomicNumber();
+
+      // FIXME-TD: these numbers feel wrong
       bool isGaOrAs = Z == 31 || Z == 32;
+
       bool isNuclearInteraction = procname == "hadElastic" || procname.contains("Inelastic");
       if (isNuclearInteraction && isGaOrAs) {
         G4double Erecoil = track->GetKineticEnergy();
         G4ThreeVector dir = track->GetMomentumDirection();
-        // TODO-TD: log these parameters and plot them
+
+        // TODO-TD: log these parameters and plot their distribution
       }
     }
 
-    // TODO-TD: lindhard partition the data as well?
-
-
-
-    /*
-      //debug: charge and mass
-      //
-      G4int stepNb = aStep->GetTrack()->GetCurrentStepNumber();
-      G4StepPoint* postPoint = aStep->GetPostStepPoint();
-      G4double charge = postPoint->GetCharge();
-      G4double mass   = postPoint->GetMass();
-      G4cout << "\n   step= " << stepNb << "   charge= " << charge
-            << "  mass= " << G4BestUnit(mass, "Energy");
-    */
-
+    // TODO-TD: do we need to lindhard partition the data as well?
   }
 
 }  // namespace GaAsProton

@@ -2,12 +2,10 @@
 /// \brief Implementation of the GaAsProton::EventAction class
 
 #include "EventAction.hh"
-
 #include "RunAction.hh"
 
 namespace GaAsProton
 {
-
   EventAction::EventAction(RunAction* runAction) : fRunAction(runAction) {}
 
   void EventAction::BeginOfEventAction(const G4Event*)
@@ -20,6 +18,8 @@ namespace GaAsProton
   {
     // accumulate statistics in run action
     fRunAction->AddEdep(fTotalEnergyDeposit);
+
+    // TODO-TD: accumulate NIEL scoring?
   }
 
 }  // namespace GaAsProton

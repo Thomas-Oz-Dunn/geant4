@@ -10,7 +10,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
 
-// TODO-TD: experiment with directional NIEL after getting the initial PKA results
+// TODO-TD: experiment with directional NIEL after 
+// getting the initial PKA results
 
 #include <iomanip>
 
@@ -120,7 +121,7 @@ void Run::EndOfRun()
     G4int count = it->second;
     G4String space = " ";
     if (++index % 3 == 0) space = "\n";
-    G4cout << " " << std::setw(10) << procName << "=" << std::setw(5) << count << space;
+      G4cout << " " << std::setw(10) << procName << "=" << std::setw(5) << count << space;
   }
   G4cout << G4endl;
 

@@ -23,7 +23,7 @@ namespace GaAsProton
       void BeginOfEventAction(const G4Event* event) override;
       void EndOfEventAction(const G4Event* event) override;
 
-      // TODO-TD: do we need this function?
+      // TODO-TD: do we need this function? Run vs EventAction?
       void AddEdep(G4double edep) { fTotalEnergyDeposit += edep; }
       inline void AddNIEL(G4double Edep) { fNIEL += Edep; };
       inline G4double GetEnergyDeposit() { return fTotalEnergyDeposit; };
