@@ -2,7 +2,7 @@ We need to modify each of the src files here for our scenario
 
 if any functions are created, headers need to be updated
 
-Assume world is in vacuum? Later we can add Al shielding
+Assume world is in vacuum? Later we can add Al shielding or coverglass
 
     DetectorConstruction.cc is where we will set up the target GaAs p-n junction
         what dopings to we want to use?
@@ -44,8 +44,7 @@ export G4LEDATA=./data/G4EMLOW8.8
 
 # Run
 
-examples/basic/GaAsProton/build/Debug/GaAsProton.exe -h
-
+examples/basic/GaAsProton/build/Release/GaAsProton.exe examples/basic/GaAsProton/vis.mac
 
 
 
