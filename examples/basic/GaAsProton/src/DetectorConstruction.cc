@@ -19,12 +19,12 @@ namespace GaAsProton
     G4NistManager* nist = G4NistManager::Instance();
     
     // // TODO-TD: parameterize device thickness to experiment with Bragg's peak
-    // // TODO-TD: parameterize dopings
-    // // TODO-TD: triple junction experiment
+    
+    // // TODO-TD: triple junction experiment of GaInP GaAs Ge?
 
     G4double junction_xy_size = 2.0 * cm;
-    G4double nTypeThickness = 0.2 * um;
-    G4double pTypeThickness = 3.5 * um;
+    G4double nTypeThickness = 10 * um;
+    G4double pTypeThickness = 100 * um;
 
     G4double nTypeConcentration = 2e18 / cm3;  // Si emitter
     G4double pTypeConcentration = 2e17 / cm3;  // Zn base
@@ -63,7 +63,7 @@ namespace GaAsProton
 
     G4bool checkOverlaps = true;
 
-    // // World parameters
+    // World parameters
     G4double world_sizeXY = 2 * junction_xy_size;
     G4double world_sizeZ = 2 * (nTypeThickness + pTypeThickness);
     G4double density = universe_mean_density; 
@@ -108,7 +108,7 @@ namespace GaAsProton
                                         "NType");
 
     new G4PVPlacement(nullptr,
-                      G4ThreeVector(), 
+                      G4ThreeVector(0, 0, -0.5 * pTypeThickness),
                       logicNType,  
                       "Ntype",  
                       logicWorld, 
@@ -124,9 +124,8 @@ namespace GaAsProton
     auto logicPType = new G4LogicalVolume(solidPType,
                                           PtypeGaAs,
                                           "PType");
-
     new G4PVPlacement(nullptr,
-                      G4ThreeVector(0, 0, nTypeThickness), 
+                      G4ThreeVector(0, 0, +0.5 * nTypeThickness),
                       logicPType,  
                       "Ptype",  
                       logicWorld, 
