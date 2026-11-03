@@ -88,11 +88,11 @@ void Run::EndOfRun()
   const G4Material* material = fDetector->GetMaterial();
   G4double density = material->GetDensity();
 
-  // G4cout << "\n  run summary \n";
-  // G4cout << "\n The run is: " << numberOfEvent << " " << partName << " of "
-  //        << G4BestUnit(fEkin, "Energy") << " through " << G4BestUnit(fDetector->GetSize(), "Length")
-  //        << " of " << material->GetName() << " (density: " << G4BestUnit(density, "Volumic Mass")
-  //        << ")" << G4endl;
+  G4cout << "\n  run summary \n";
+  G4cout << "\n The run is: " << numberOfEvent << " " << partName << " of "
+         << G4BestUnit(fEkin, "Energy") << " through " << G4BestUnit(fDetector->GetSize(), "Length")
+         << " of " << material->GetName() << " (density: " << G4BestUnit(density, "Volumic Mass")
+         << ")" << G4endl;
 
   if (numberOfEvent == 0) {
     G4cout.precision(dfprec);
@@ -100,10 +100,10 @@ void Run::EndOfRun()
   }
 
   G4double dNbOfEvents = (G4double)numberOfEvent;
-  // G4cout << "\n Energy deposit:   " << G4BestUnit(fEdep / dNbOfEvents,  "Energy") << G4endl;
-  // G4cout << " Energy leakage:   " << G4BestUnit(fEleak / dNbOfEvents, "Energy") << G4endl;
-  // G4cout << " Edep + Eleak:     " << G4BestUnit((fEdep + fEleak)/dNbOfEvents, "Energy") << G4endl;
-  // G4cout << " \n NIEL energy calculated: " << G4BestUnit(fNIEL / dNbOfEvents,  "Energy") << G4endl;
+  G4cout << "\n Energy deposit:   " << G4BestUnit(fEdep / dNbOfEvents,  "Energy") << G4endl;
+  G4cout << " Energy leakage:   " << G4BestUnit(fEleak / dNbOfEvents, "Energy") << G4endl;
+  G4cout << " Edep + Eleak:     " << G4BestUnit((fEdep + fEleak)/dNbOfEvents, "Energy") << G4endl;
+  G4cout << " \n NIEL energy calculated: " << G4BestUnit(fNIEL / dNbOfEvents,  "Energy") << G4endl;
 
   // nb of tracks and steps per event
   G4cout << "\n Nb tracks/event"
