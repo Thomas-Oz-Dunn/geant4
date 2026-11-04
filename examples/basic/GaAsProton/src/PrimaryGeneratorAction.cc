@@ -23,7 +23,7 @@ namespace GaAsProton
     G4double particleEnergy = 10. * MeV;
     G4int n_particle = 1;
     // target fluence in particles / cm^2
-    fFluence = 1.0e17 / cm2;
+    fFluence = 1.0e13 / cm2;
 
     fParticleGun = new G4ParticleGun(n_particle);
 
@@ -48,7 +48,7 @@ namespace GaAsProton
     G4double envSizeZ = 0;
 
     if (!fJunctionBox) {
-      G4LogicalVolume* envLV = G4LogicalVolumeStore::GetInstance()->GetVolume("Envelope");
+      G4LogicalVolume* envLV = G4LogicalVolumeStore::GetInstance()->GetVolume("Ptype");
       if (envLV) fJunctionBox = dynamic_cast<G4Box*>(envLV->GetSolid());
     }
 
@@ -58,7 +58,7 @@ namespace GaAsProton
     }
     else {
       G4ExceptionDescription msg;
-      msg << "Envelope volume of box shape not found.\n";
+      msg << "PType volume of box shape not found.\n";
       msg << "Perhaps you have changed geometry.\n";
       msg << "The gun will be place at the center.";
       

@@ -148,20 +148,20 @@ void Run::EndOfRun()
     rangeTable = emCalculator.GetCSDARange(fEkin, fParticle, material);
   }
 
-  // G4cout << "\n---------------------------------------------------------\n";
-  // G4cout << " Primary particle : ";
-  // G4cout << "\n true Range = " << G4BestUnit(fTrueRange, "Length")
-  //        << "   rms = " << G4BestUnit(trueRms, "Length");
-  // G4cout << "\n proj Range = " << G4BestUnit(fProjRange, "Length")
-  //        << "   rms = " << G4BestUnit(projRms, "Length");
-  // G4cout << "\n proj/true  = " << fProjRange / fTrueRange;
-  // G4cout << "\n transverse dispersion at end = " << G4BestUnit(trvsRms, "Length");
-  // G4cout << "\n      mass true Range from simulation = "
-  //        << G4BestUnit(fTrueRange * density, "Mass/Surface")
-  //        << "\n       from PhysicsTable (csda range) = "
-  //        << G4BestUnit(rangeTable * density, "Mass/Surface");
-  // G4cout << "\n---------------------------------------------------------\n";
-  // G4cout << G4endl;
+  G4cout << "\n---------------------------------------------------------\n";
+  G4cout << " Primary particle : ";
+  G4cout << "\n true Range = " << G4BestUnit(fTrueRange, "Length")
+         << "   rms = " << G4BestUnit(trueRms, "Length");
+  G4cout << "\n proj Range = " << G4BestUnit(fProjRange, "Length")
+         << "   rms = " << G4BestUnit(projRms, "Length");
+  G4cout << "\n proj/true  = " << fProjRange / fTrueRange;
+  G4cout << "\n transverse dispersion at end = " << G4BestUnit(trvsRms, "Length");
+  G4cout << "\n      mass true Range from simulation = "
+         << G4BestUnit(fTrueRange * density, "Mass/Surface")
+         << "\n       from PhysicsTable (csda range) = "
+         << G4BestUnit(rangeTable * density, "Mass/Surface");
+  G4cout << "\n---------------------------------------------------------\n";
+  G4cout << G4endl;
 
   fProcCounter.clear();
   G4cout.precision(dfprec);
